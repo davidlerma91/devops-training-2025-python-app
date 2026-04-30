@@ -19,6 +19,17 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            agent {
+                docker {
+                    image 'python:3.6-slim'
+                }
+            }
+            steps {
+                sh 'pytest'
+            }
+        }
+
         stage('Check registry credentials') {
             steps {
                 withCredentials([usernamePassword(
