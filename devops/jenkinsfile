@@ -26,9 +26,8 @@ pipeline {
                 }
             }
             steps {
-                sh 'python -m pip install --upgrade pip'
-                sh 'pip install -r requirements.txt'
-                sh 'pytest'
+                sh 'HOME=$WORKSPACE python -m pip install --user -r requirements.txt'
+                sh 'HOME=$WORKSPACE PATH=$WORKSPACE/.local/bin:$PATH pytest'
             }
         }
 
