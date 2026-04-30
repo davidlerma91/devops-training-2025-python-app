@@ -6,12 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Dummy') {
-            steps {
-                echo 'Dummy Jenkins pipeline'
-            }
-        }
-
         stage('Info') {
             steps {
                 echo "Job: ${env.JOB_NAME}"
