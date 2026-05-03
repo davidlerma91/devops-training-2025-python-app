@@ -13,15 +13,29 @@ pipeline {
             }
         }
 
+        stage('Lint') {
+            agent {
+                dockerfile {
+                    dir 'devops'
+                    filename 'ci.Dockerfile'
+                }
+            }
+            steps {
+                sh 'HOME=$WORKSPACE python -m pip install --user -r requirements.txt flake8 mypy'
+                sh 'HOME=$WORKSPACE PATH=$WORKSPACE/.local/bin:$PATH make lint'
+            }
+        }
+
         stage('Test') {
             agent {
-                docker {
-                    image 'python:3.6-slim'
+                dockerfile {
+                    dir 'devops'
+                    filename 'ci.Dockerfile'
                 }
             }
             steps {
                 sh 'HOME=$WORKSPACE python -m pip install --user -r requirements.txt'
-                sh 'HOME=$WORKSPACE PATH=$WORKSPACE/.local/bin:$PATH pytest'
+                sh 'HOME=$WORKSPACE PATH=$WORKSPACE/.local/bin:$PATH pytest -q'
             }
         }
 
